@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ClientPermissions> 
+	<Client
+		name="Meevs"
+		steamid="STEAM_1:0:16660832"
+		permissions="All" 
+		/>
+</ClientPermissions>
