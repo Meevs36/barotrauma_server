@@ -7,7 +7,8 @@
 export STEAM_LOGIN="anonymous"
 export SERVER_ID="1026340"
 export APP_ID="602960"
-export MOD_DIR="${HOME}/.local/share/Daedalic Entertainment GmbH/Barotrauma/WorkshopMods/Installed"
+#export MOD_DIR="${HOME}/.local/share/Daedalic Entertainment GmbH/Barotrauma/WorkshopMods/Installed"
+export MOD_DIR="${INSTALL_DIR}/LocalMods"
 source parse_mods.sh 
 
 echo ""
@@ -29,6 +30,12 @@ echo ""
 echo ""
 
 "${INSTALL_DIR}/DedicatedServer"
+
+echo "${MOD_DIR}"
+echo ""
+ls "${MOD_DIR}"
+
+
 
 echo ""
 echo "Server has quit"

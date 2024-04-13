@@ -10,6 +10,7 @@ ARG INSTALL_DIR="/barotrauma_server"
 ARG CONFIG_DIR="./config_files/base"
 
 ENV INSTALL_DIR="${INSTALL_DIR}"
+ENV MOD_DIR="/root/.local/share/Daedalic Entertainment GmbH/Barotrauma/WorkshopMods/Installed"
 
 COPY ./init_scripts/init_container.sh /usr/bin/
 COPY ./init_scripts/parse_mods.sh /usr/bin/
@@ -29,7 +30,7 @@ RUN mkdir --parent "${MOD_DIR}"\
 WORKDIR ${INSTALL_DIR}
 
 COPY "${CONFIG_DIR}/clientpermissions.xml" "${INSTALL_DIR}/"
-COPY "${CONFIG_DIR}/config_player.xml" "${INSTALL_DIR}/Data/"
+COPY "${CONFIG_DIR}/config_player.xml" "${INSTALL_DIR}/"
 COPY "${CONFIG_DIR}/serversettings.xml" "${INSTALL_DIR}/"
 COPY "${CONFIG_DIR}/mod_list.json" "${INSTALL_DIR}/"
 

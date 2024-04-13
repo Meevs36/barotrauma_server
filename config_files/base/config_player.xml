@@ -61,6 +61,18 @@
     <corepackage
       path="Content/ContentPackages/Vanilla.xml" />
 	<regularpackages>
+		<!-- Sound-proof Walls -->
+		<package 
+			path="LocalMods/sound_proof_walls/filelist.xml"/>
+		<!-- Lua for Barotrauma -->
+		<package 
+			path="LocalMods/lua_for_bt/filelist.xml"/>
+		<!-- Neurotrauma -->
+		<package 
+			path="LocalMods/neurotrauma/filelist.xml"/>	
+		<!-- Real Sonar -->
+		<package 
+			path="LocalMods/real_sonar/filelist.xml"/>
 	</regularpackages>
   </contentpackages>
 </config>

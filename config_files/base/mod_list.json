@@ -3,6 +3,18 @@
 		{
 			"mod_name": "sound_proof_walls",
 			"workshop_id": "3153737715"
+		},
+		{
+			"mod_name": "lua_for_bt",
+			"workshop_id": "2559634234"
+		},
+		{
+			"mod_name": "neurotrauma",
+			"workshop_id": "2776270649"
+		},
+		{
+			"mod_name": "real_sonar",
+			"workshop_id": "2936760984"
 		}
 	]
 }

@@ -7,6 +7,8 @@
 # 	-- 2023-12-19 -- Version two utilizes the Steam Workshop through steamcmd rather than relying on arbitrary links
 
 
+export STEAM_WORKSHOP_DIR="${HOME}/.local/share/Steam/steamapps/workshop/content"
+
 function parse_mod () {
 	if [[ "$#" -ge 1 && ! -z "${MOD_DIR}" ]]
 	then
@@ -50,10 +52,10 @@ function parse_mod () {
 					echo -e "\e[38;2;0;255;0mDownloading ${workshop_id}" to "${MOD_DIR}/${mod_name}\e[0m"
 					steamcmd +login "${STEAM_LOGIN}" +workshop_download_item "${APP_ID}" "${workshop_id}" +quit
 				fi
-					
-				if [[ -d "${HOME}/Steam/steamapps/workshop/content/${APP_ID}/${workshop_id}" ]]
+				
+				if [[ -d "${STEAM_WORKSHOP_DIR}/${APP_ID}/${workshop_id}" ]]
 				then
-					cp --recursive "${HOME}/Steam/steamapps/workshop/content/${APP_ID}/${workshop_id}" "${MOD_DIR}/${mod_name}"
+					cp --recursive "${STEAM_WORKSHOP_DIR}/${APP_ID}/${workshop_id}" "${MOD_DIR}/${mod_name}"
 					echo -e "\e[38;0;200;200;0mAdded ${mod_name}\e[0m"
 					if [[ -z "${MODS}" ]]
 					then

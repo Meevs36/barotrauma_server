@@ -11,8 +11,8 @@ services:
       args:
         INSTALL_DIR: "${INSTALL_DIR}"
         CONFIG_DIR: "${CONFIG_DIR}"
-    image: "barotrauma-${SERVER_NAME}-img"
-    container_name: "barotrauma-${SERVER_NAME}"
+    image: "bt-${SERVER_NAME}-img"
+    container_name: "bt-${SERVER_NAME}"
     stdin_open: true
     tty: true
     entrypoint: "init_container.sh"
