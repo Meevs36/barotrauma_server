@@ -6,11 +6,11 @@
 
 FROM steamcmd/steamcmd:debian
 
-ARG INSTALL_DIR="/barotrauma_server"
-ARG CONFIG_DIR="./config_files/base"
+ARG INSTALL_DIR="/bt_server"
 
+ENV SERVER_NAME="base"
+ENV SERVER_ID="1026340"
 ENV INSTALL_DIR="${INSTALL_DIR}"
-ENV MOD_DIR="/root/.local/share/Daedalic Entertainment GmbH/Barotrauma/WorkshopMods/Installed"
 
 COPY ./init_scripts/init_container.sh /usr/bin/
 COPY ./init_scripts/parse_mods.sh /usr/bin/
@@ -22,17 +22,13 @@ RUN apt-get update -y\
 #RUN mkdir --parent /root/.steam/sdk64/\
 # && ln /root/.steam/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/ --symbolic
 
-RUN steamcmd +force_install_dir "${INSTALL_DIR}" +login anonymous +app_update 1026340 validate +quit
-RUN mkdir --parent "${MOD_DIR}"\
-	&& mkdir --parent "/root/.local/share/Daedalic Entertainment GmbH/Barotrauma"\
-	&& mkdir --parent "/root/.steam/steamapps/common/Barotruama Dedicated Server"
+RUN steamcmd +force_install_dir "${INSTALL_DIR}" +login anonymous +app_update "${SERVER_ID}" validate +quit
+RUN	mkdir --parent "/${HOME}/.local/share/Daedalic Entertainment GmbH/Barotrauma"\
+	&& mkdir --parent "/${HOME}/.steam/steamapps/common/Barotruama Dedicated Server"
 
 WORKDIR ${INSTALL_DIR}
 
-COPY "${CONFIG_DIR}/clientpermissions.xml" "${INSTALL_DIR}/"
-COPY "${CONFIG_DIR}/config_player.xml" "${INSTALL_DIR}/"
-COPY "${CONFIG_DIR}/serversettings.xml" "${INSTALL_DIR}/"
-COPY "${CONFIG_DIR}/mod_list.json" "${INSTALL_DIR}/"
+ADD "./config_files/${SERVER_NAME}.tar.bz" "${INSTALL_DIR}/"
 
 EXPOSE 27015/udp
 EXPOSE 27016/udp

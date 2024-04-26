@@ -10,7 +10,6 @@ services:
       context: "./"
       args:
         INSTALL_DIR: "${INSTALL_DIR}"
-        CONFIG_DIR: "${CONFIG_DIR}"
     image: "bt-${SERVER_NAME}-img"
     container_name: "bt-${SERVER_NAME}"
     stdin_open: true
@@ -18,10 +17,10 @@ services:
     entrypoint: "init_container.sh"
     ports:
      - "27015-27016:27015-27016/udp"
-    volumes:
-      - type: "volume"
-        source: "data"
-        target: "${INSTALL_DIR}"
+#    volumes:
+#      - type: "volume"
+#        source: "data"
+#        target: "${INSTALL_DIR}"
 
 volumes:
   data: {}
