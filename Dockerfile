@@ -9,7 +9,6 @@ FROM steamcmd/steamcmd:debian
 ARG INSTALL_DIR="/bt_server"
 ARG CONFIG_PKG="./config_files/base_config.tar.bz"
 
-ENV SERVER_NAME="base"
 ENV SERVER_ID="1026340"
 ENV INSTALL_DIR="${INSTALL_DIR}"
 
