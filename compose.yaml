@@ -10,6 +10,7 @@ services:
       context: "./"
       args:
         INSTALL_DIR: "${INSTALL_DIR}"
+        CONFIG_PKG: "${CONFIG_PKG}"
     image: "bt-${SERVER_NAME}-img"
     container_name: "bt-${SERVER_NAME}"
     stdin_open: true
