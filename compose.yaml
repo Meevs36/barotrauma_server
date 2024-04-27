@@ -15,7 +15,6 @@ services:
     container_name: "bt-${SERVER_NAME}"
     stdin_open: true
     tty: true
-    entrypoint: "init_container.sh"
     ports:
      - "27015-27016:27015-27016/udp"
     volumes:

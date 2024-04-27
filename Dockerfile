@@ -4,7 +4,7 @@
 # Notes --
 #     -- This dockerfile builds a Barotrauma Dedicated Server
 
-FROM steamcmd/steamcmd:debian
+FROM mbox/steamcmd
 
 ARG INSTALL_DIR="/bt_server"
 ARG CONFIG_PKG="./config_files/base_config.tar.bz"
@@ -12,8 +12,7 @@ ARG CONFIG_PKG="./config_files/base_config.tar.bz"
 ENV SERVER_ID="1026340"
 ENV INSTALL_DIR="${INSTALL_DIR}"
 
-COPY ./init_scripts/init_container.sh /usr/bin/
-COPY ./init_scripts/parse_mods.sh /usr/bin/
+COPY ./scripts/init_bt_server /usr/bin/
 
 RUN apt-get update -y\
 	&& apt-get install -y jq
@@ -33,5 +32,4 @@ ADD "${CONFIG_PKG}" "${INSTALL_DIR}/"
 EXPOSE 27015/udp
 EXPOSE 27016/udp
 
-CMD [ "/bin/bash", "-c" ]
-ENTRYPOINT [ "init_container.sh" ]
+CMD [ "init_bt_server" ]

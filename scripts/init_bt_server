@@ -1,0 +1,100 @@
+#! /bin/bash
+# Author -- meevs
+# File Name -- init_bt_server
+# Creation Date -- 2024-04-22
+# Notes --
+
+
+# Author -- meevs
+# Creation Date -- 2024-04-23
+# Function Name -- create_config_player
+# Function Purpose -- Creates the config_player.xml file with the given specified mods
+# Function Parameters --
+# 	-- MOD_LIST -- The mod list to be used for generating the config file
+# Function Returns -- void
+# Notes --
+function create_config_player () {
+	local MOD_LIST="${1}"
+	local MOD_IDS=""
+	local CONFIG_PLAYER="./config_player.xml"
+
+	if [[ "${#}" -ge 1 ]] then
+		MOD_IDS=$(parse_mod_ids "${MOD_LIST}")
+
+		echo -e "<config>" > "${CONFIG_PLAYER}"
+		echo -e "\t<contentpackages>" >> "${CONFIG_PLAYER}"
+		echo -e "\t\t<corepackage\n
+			 \t\t\tpath=\"Content/ContentPackages/Vanilla.xml\" />" >> "${CONFIG_PLAYER}"
+		echo -e "\t\t<regularpackages>" >> "${CONFIG_PLAYER}"
+		for mod_id in $(echo "${MOD_IDS}" | sed "s/ / /g")
+		do	
+			echo -e "\t\t\t<package"  >> "${CONFIG_PLAYER}"
+			echo -e "\t\t\t\tpath=\"LocalMods/${mod_id}/filelist.xml\"/>" >> "${CONFIG_PLAYER}"
+		done
+
+		echo -e "\t\t</regularpackages>" >> "${CONFIG_PLAYER}"
+		echo -e "\t</contentpackages>" >> "${CONFIG_PLAYER}"
+		echo -e "</config>" >> "${CONFIG_PLAYER}"
+	fi
+}
+
+
+APP_ID="602960"
+SERVER_ID="1026340"
+MOD_LIST="mod_list.json"
+WORKSHOP_DIR="${PWD}/steamapps/workshop/content/${APP_ID}/"
+
+if [[ -f "${MOD_LIST}" && -r "${STEAM_WORKSHOP_HELPER_FUNCTIONS}" ]] then
+
+	source "${STEAM_WORKSHOP_HELPER_FUNCTIONS}"
+
+	if [[ ! -z "${STEAMCMD}" ]] then
+	
+		if [[ "${#}" -ge 1 ]] then
+			MOD_LIST="${1}"
+			echo -e "\e[38;2;125;125;0mParsing modlist: ${MOD_LIST}\e[0m"
+		fi
+	
+		BT_DIR="${HOME}/.local/share/Daedalic Entertainment GmbH/Barotrauma"
+		if [[ ! -d "${BT_DIR}" ]] then
+			echo -e "\e[38;2;255;255;0mCreating directory ${BT_DIR}\e[0m"
+			mkdir --parent "${BT_DIR}"
+		fi	
+	
+		# If a modlist is present, parse the mods
+		MOD_IDS=$(parse_mod_ids "${MOD_LIST}")
+		install_mods "${MOD_LIST}" 
+	
+		# If the local mods folder is absent, create it
+		if [[ ! -d "./LocalMods" ]] then
+			mkdir --verbose "./LocalMods"
+		fi
+
+		# Unlink currently loaded mods
+		for mod in $(find "./LocalMods/")
+		do
+			if [[ -L "${mod}" ]] then
+				unlink --verbose "${mod}"
+			fi
+		done
+
+		# Link systems mods to this server
+		for mod_id in $(echo "${MOD_IDS}" | sed "s/ / /g")
+		do
+			ln --verbose --symbolic "${WORKSHOP_DIR}/${mod_id}" "./LocalMods/${mod_id}"
+		done
+
+		create_config_player "${MOD_LIST}"
+	fi
+else # Error handling
+	if [[ ! -r "${STEAM_WORKSHOP_HELPER_FUNCTIONS}" ]] then
+		echo -e "\e[38;2;255;0;0mCould not locate steam workshop helper functions at ${STEAM_WORKSHOP_HELPER_FUNCTIONS}\e[0m"
+	fi
+
+	if [[ ! -f "${MOD_LIST}" ]] then
+		echo -e "\e[38;2;255;255;0mNo mod list provided!\e[0m"
+	fi
+fi
+
+"${STEAMCMD}" +force_install_dir "${PWD}" +login "anonymous" +app_update "${SERVER_ID}" +quit
+./DedicatedServer
