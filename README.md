@@ -21,7 +21,7 @@ This documentation is provided to aid in the building of the **MeevsBox Barotrau
 
 ### Dependencies <a name=dependencies></a>
 
-- steamcmd/steamcmd:debian
+- [mbox/steamcmd:latest](https://gitlab.com/me1891/docker_images/steamcmd)
 
 ### Quick Start <a name=quick_start></a>
 
